@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Axios from "axios";
 
-const BASE_URL = import.meta.env.VITE_BACKEND_URL || 'https://www.thesportsdb.com/api/v1/json/3';
+const BASE_URL =
+  import.meta.env.VITE_BACKEND_URL ||
+  "https://www.thesportsdb.com/api/v1/json/3";
 
 class ApiService {
   private static instance = new ApiService();
@@ -39,7 +41,7 @@ class ApiService {
     data?: any,
     useAuthHeaders = true,
     headers?: any,
-    params?: any
+    params?: any,
   ) {
     return this.request({
       method: "PUT",
@@ -56,7 +58,7 @@ class ApiService {
     data?: any,
     headers?: any,
     params?: any,
-    useAuthHeaders = true
+    useAuthHeaders = true,
   ) {
     return this.request({
       method: "PATCH",
@@ -70,14 +72,14 @@ class ApiService {
 
   generateHeaders = (
     additionalHeaders: { [key: string]: any },
-    useAuthHeaders: boolean
+    useAuthHeaders: boolean,
   ) => {
     const headers = {
       ...additionalHeaders,
     };
 
     if (useAuthHeaders && typeof window !== "undefined") {
-      headers.Authorization = `Bearer ${localStorage.getItem("auth_token")}`;
+      headers["X-API-KEY"] = `123`;
     }
 
     return { ...headers };

@@ -6,5 +6,6 @@ export const useSeasonBadge = (leagueId: string, enabled: boolean) => {
     queryKey: ["seasonBadge", leagueId],
     queryFn: () => fetchSeasonBadge(leagueId),
     enabled,
+    staleTime: 10 * 60 * 1000, // Cache for 10 minutes
   });
 };
