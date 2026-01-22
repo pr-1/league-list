@@ -1,73 +1,61 @@
-# React + TypeScript + Vite
+# League List
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Live Demo
 
-Currently, two official plugins are available:
+🌐 **Live URL**: [https://pr-1.github.io/league-list/](https://pr-1.github.io/league-list/)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+# AI Tools and Design Decisions
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## AI Tools Used
 
-## Expanding the ESLint configuration
+### Cursor AI Assistant
+- **Purpose**: Code generation, UI Ideas, Deployment
+- **How it helped**:
+  - Give me deisgn ideas to build.
+  - Set up Tailwind CSS v4 configuration with Vite plugin
+  - Fixed GitHub Pages deployment configuration
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Benefits
+- Accelerated development by generating boilerplate code
+- Provided solutions for configuration issues (GitHub Pages)
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Design Decisions
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### UI/UX Design
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+#### Styling Framework
+- **Tailwind CSS**: Chosen for simplicity and easy designing. Tailwind's utility-first approach allows for rapid UI development without writing custom CSS, making it straightforward to create responsive and modern designs with minimal code.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+#### Layout & Responsiveness
+- **Grid System**: Responsive grid layout (1 column mobile, 2 tablet, 3 desktop) using Tailwind's grid utilities
+- **Container**: Centered container with padding for optimal content width on all screen sizes
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+#### Component Architecture
+- **Modular Components**: Separated concerns into focused, reusable components:
+  - `SearchBar`: Handles text input filtering
+  - `SportFilter`: Dropdown for sport type filtering
+  - `LeagueCard`: Individual league display with click handler
+  - `LeagueList`: Grid container with empty state handling
+  - `BadgeModal`: Modal for displaying season badges
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### Technical Decisions
+
+#### State Management
+- **React Hooks**: Used `useState` for local component state (search query, selected sport, modal state)
+- **React Query**: Leveraged `@tanstack/react-query` for:
+  - Server state management
+  - Automatic caching
+  - Built-in loading and error states
+
+#### Performance Optimizations
+- **Memoization**: Used `useMemo` for:
+  - Extracting unique sports list (prevents recalculation on every render)
+  - Filtering leagues (only recalculates when dependencies change)
+- **Caching**: React Query automatically caches API responses, preventing redundant API calls
+
+#### API Integration
+- **Service Layer**: Separated API calls into service files for maintainability
+- **Error Handling**: Centralized error handling in API service
+- **Type Safety**: Full TypeScript implementation with interfaces for all API responses
